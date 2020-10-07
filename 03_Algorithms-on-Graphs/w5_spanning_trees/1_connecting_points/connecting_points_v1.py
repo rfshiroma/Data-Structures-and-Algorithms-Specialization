@@ -6,7 +6,7 @@ import math
 
 # In this problem, the goal is to build roads between some pairs of the given cities such that there is a path between any two cities and the total length of the roads is minimized.
 
-# Kruskal's algorithm: repeatedly add the next lightest edge if this does not produce a cycle.
+# Kruskal's algorithm: repeatedly add the next lightest edge if this does not produce a cycle; use disjoint sets to check whether the current edge joins two vertices from different components.
 
 class MinimumLength:
     def __init__(self, n, edges):
