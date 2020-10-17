@@ -2,7 +2,7 @@
 # Good job! (Max time used: 1.04/4.00, max memory used: 92798976/536870912.)
 
 
-def PrefixFunction(p):
+def prefix_function(p):
     s = [0] * len(p)
     border = 0
     for i in range(1, len(p)):
@@ -16,9 +16,9 @@ def PrefixFunction(p):
     return s
 
 
-def KMP(p, t):
+def kmp(p, t):
     s = p + '$' + t
-    pre_func = PrefixFunction(s)
+    pre_func = prefix_function(s)
     result = []
     for i in range(len(p) + 1, len(s)):
         if pre_func[i] == len(p):
@@ -29,6 +29,6 @@ def KMP(p, t):
 if __name__ == '__main__':
     pattern = input()
     text = input()
-    positions = KMP(pattern, text)
+    positions = kmp(pattern, text)
     for pos in positions:
         print(pos, end=' ')
