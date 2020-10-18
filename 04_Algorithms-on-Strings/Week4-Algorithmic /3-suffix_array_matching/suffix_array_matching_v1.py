@@ -3,14 +3,31 @@
 
 import sys
 
+# Task: Find all occurrences of a given collection of patterns in a string. In this problem, we will let you use the suffic array to solve the Multiple Pattern Matching Problem.
+
 def sort_characters(s):
     order = [0] * len(s)
+    count = {'$': 0, 'A': 0, 'C': 0, 'G': 0, 'T': 0}
+    for char in s:
+        count[char] += 1
+    ele = ['$', 'A', 'C', 'G', 'T']
+    for i in range(1, 5):
+        count[ele[i]] += count[ele[i-1]]
+    for j in range(len(s) - 1, -1, -1):
+        c = s[j]
+        count[c] -= 1
+        order[count[c]] = j
 
     return order
 
 
 def compute_char_classes(s, order):
-    pass
+    char_class = [0] * len(s)
+    for i in range(1, len(s)):
+        if s[order[i]] == s[order[i-1]]:
+            char_class[order[i]] = char_class[order[i-1]]
+        else:
+            char_class[order[i]] = char_class[order[i-1]] + 1
 
     return char_class
 
