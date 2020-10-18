@@ -8,6 +8,32 @@ def sort_characters(s):
 
     return order
 
+
+def compute_char_classes(s, order):
+    pass
+
+    return char_class
+
+def sort_doubled(s, L, old_order, old_class):
+    pass
+
+    return new_order
+
+def update_classes(new_order, old_class, L):
+    pass
+
+    return new_class
+
+def build_suffix_array(s):
+    pass
+
+    return order[1:]
+
+def pattern_matching_with_suffix_arrayt(t, p, sa):
+    pass
+
+    return start, end
+
 if __name__ == '__main__':
     # TEST 1
     text = input()
