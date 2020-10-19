@@ -32,22 +32,79 @@ def compute_char_classes(s, order):
     return char_class
 
 def sort_doubled(s, L, old_order, old_class):
-    pass
+    count = [0] * len(s)
+    new_order = [0] * len(s)
+    for i in range(len(s)):
+        count[old_class[i]] += 1
+    for i in range(1, len(s)):
+        count [i] += count[i-1]
+    for j in range(len(s) - 1, -1, -1):
+        start = (old_order[j] - L + len(s) % len(s))
+        cl = old_class[start]
+        count[cl] -= 1
+        new_order[count[cl]] = start
 
     return new_order
 
 def update_classes(new_order, old_class, L):
-    pass
+    n = len(new_order)
+    new_class = [0] * n
+    for i in range(1, n):
+        cur = new_order[i]
+        mid = (cur + L) % n
+        prev = new_order[i-1]
+        mid_prev = (prev + L) % n
+        if old_class[cur] == old_class[prev] and old_class[mid] == pld_class[mid_prev]:
+            new_class[cur] = new_class[prev]
+        else:
+            new_class[cur] = new_class[prev] + 1
 
     return new_class
 
 def build_suffix_array(s):
-    pass
+    order = sort_characters(s)
+    _class = compute_char_classes(s, order)
+    L = 1
+    while L < len(s):
+        order = sort_doubled(s, L, order, _class)
+        _class = update_classes(order, _class, L)
+        L = 2 * L
 
     return order[1:]
 
-def pattern_matching_with_suffix_arrayt(t, p, sa):
-    pass
+def pattern_matching_with_suffix_array(t, p, sa):
+    min = 0
+    max = len(t)
+    while min < max:
+        mid = (min + max) // 2
+        suffix = sa[mid]
+        i = 0
+        while i < len(p) and suffix + i < len(t):
+            if p[i] > t[suffix + i]:
+                min = mid + 1
+                break
+            elif p[i] < t[suffix + i]:
+                max = mid
+                break
+            i += 1
+            if i == len(p):
+                max = mid
+            elif suffix + i == len(t):
+                min = mid + 1
+    start = min
+    max = len(t)
+    while min < max:
+        mid = (mid + max) // 2
+        suffix = sa[mid]
+        i = 0
+        while i < len(p) and suffix + i < len(t):
+            if p[i] < t[suffix + i]:
+                max = mid
+                break
+            i += 1
+            if i == len(p) and i <= len(t) - suffix: # if p is a prefix of the suffix, we treat p >= suffix
+                min = mid + 1
+    end = max - 1
 
     return start, end
 
