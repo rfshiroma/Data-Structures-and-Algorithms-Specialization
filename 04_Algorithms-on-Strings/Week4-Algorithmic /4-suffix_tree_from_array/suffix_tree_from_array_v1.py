@@ -41,16 +41,46 @@ class SuffixTree:
         self.root = self.Node(None, 0, -1, -1)
 
     def create_new_leaf(self, node, suffix):
-        pass
+        leaf = self.Node(node, len(self.s) - suffix, suffix + node.depth, len(self.s))
+        node.children[self.s[leaf.start]] = leaf
+        return leaf
 
     def break_edge(self, node, mid_start, offset):
-        pass
+        mid_char = self.s[mid_start]
+        left_char = self.s[mid_start + offset]
+        mid = self.Node(node, node.depth + offset, mid_start, mid_start + offset)
+        mid.children[left_char] = node.children[mid_char]
+        node.children[mid_char].parent = mid
+        node.children[mid_char].start += offset
+        node.children[mid_char] = mid
+        return mid
 
     def st_from_sa(self):
-        pass
+        lcp_prev = 0
+        cur = self.root
+        for i in range(len(self.s)):
+            suffix = self.order[i]
+            while cur.depth > lcp.prev:
+                cur = cur.parent
+            if cur.depth == lcp_prev:
+                cur = self.create_new_leaf(cur, suffix)
+            else:
+                # break edge and as a result got 3 nodes: mid, left(exist already), right(new suffix)
+                mid_start = self.order[i - 1] + cur.depth       # the start of mid-node
+                offset = lcp_prev - cur.depth                   # the number of characters of mid-node
+                mid = self.break_edge(cur, mid_start, offset)
+                cur = self.create_new_leaf(mid, suffix)
+            if i < len(self.s) - 1:
+                lcp_prev = self.LCP[i]
 
     def print_edges(self, cur):
-        pass
+        cur.visited = True
+        if cur != self.root:
+            print(cur.start, cur.end)
+        for i in range(5):
+            child = cur.children.get(self.ele[i], None)
+            if child is not None and not child.visited:
+                self.print_edges(child)
 
 
 def main():
@@ -59,7 +89,7 @@ def main():
     lcp = list(map(int, input().split()))
     print(text)
     suffix_tree = SuffixTree(text, suffix_array, lcp)
-    suffix_tree.STFromSA()
+    suffix_tree.st_from_sa()
 
 
 threading.Thread(target=main).start()
