@@ -1,5 +1,5 @@
 # python3
-#
+# Good job! (Max time used: 4.58/10.00, max memory used: 464146432/536870912.)
 
 import sys
 import threading
