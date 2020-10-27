@@ -19,5 +19,13 @@ def has_path(Gf, path):
 def maxflow(Gf):
     pass
 
+
 if __name__ == '__main__':
-    pass
+    n_city, n_edges = map(int, input().split())
+    residual_graph = [[0] * n_city for i in range(n_city)]
+    for _ in range(n_edges):
+        u, v, capacity = map(int, input().split())
+        residual_graph[u-1][v-1] += capacity
+    print(residual_graph)
+    max_flow = maxflow(residual_graph)
+    print(max_flow)
