@@ -3,6 +3,8 @@
 
 from collections import deque
 
+# The Ford-Fulkerson method depends on three important ideas that transcend the method and are relevant to many flow algorithms and problems: residual networks (Gf), augmenting paths, and cuts(cf)
+
 def has_path(Gf, path):
     n = len(Gf)
     visited = [False] * n
