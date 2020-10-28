@@ -17,7 +17,26 @@ def has_path(Gf, path):
     return visited[n-1]
 
 def maxflow(Gf):
-    pass
+    flow = 0
+    n = len(Gf)
+    path = list(range(n))
+    while has_path(Gf, path):
+        min_flow = float('inf')
+        # find cf(p)
+        v = n - 1
+        while v != 0:
+            u = path[v]
+            min_flow = min(mix_flow, Gf[u][v])
+            v = u
+        # add flow in every edge of the augmente path
+        v = n - 1
+        while v != 0:
+            u = path[v]
+            Gf[u][v] -= min_flow
+            Gf[u][v] += min_flow
+            v = u
+        flow += min_flow
+    return flow
 
 
 if __name__ == '__main__':
