@@ -1,3 +1,6 @@
+# python3
+# Good job! (Max time used: 0.05/45.00, max memory used: 9220096/536870912.)
+
 from collections import deque
 
 def has_path(Gf, path):
@@ -26,14 +29,14 @@ def maxflow(Gf):
         v = n - 1
         while v != 0:
             u = path[v]
-            min_flow = min(mix_flow, Gf[u][v])
+            min_flow = min(min_flow, Gf[u][v])
             v = u
-        # add flow in every edge of the augmente path
+        # add flow in every edge of the augument path
         v = n - 1
         while v != 0:
             u = path[v]
             Gf[u][v] -= min_flow
-            Gf[u][v] += min_flow
+            Gf[v][u] += min_flow
             v = u
         flow += min_flow
     return flow
@@ -44,7 +47,7 @@ if __name__ == '__main__':
     residual_graph = [[0] * n_city for i in range(n_city)]
     for _ in range(n_edges):
         u, v, capacity = map(int, input().split())
-        residual_graph[u-1][v-1] += capacity
-    print(residual_graph)
+        residual_graph[u - 1][v - 1] += capacity
+    # print(residual_graph)
     max_flow = maxflow(residual_graph)
     print(max_flow)
