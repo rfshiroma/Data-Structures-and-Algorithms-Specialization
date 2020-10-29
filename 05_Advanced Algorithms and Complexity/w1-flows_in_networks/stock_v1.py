@@ -1,4 +1,5 @@
 # python3
+# Good job! (Max time used: 0.08/10.00, max memory used: 8929280/536870912.)
 
 from collections import deque
 
