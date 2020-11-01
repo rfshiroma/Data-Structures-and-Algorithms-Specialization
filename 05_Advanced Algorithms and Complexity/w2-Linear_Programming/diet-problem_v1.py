@@ -3,6 +3,8 @@
 import itertools
 import copy
 
+# https://www.geeksforgeeks.org/itertools-combinations-module-python-print-possible-combinations/
+
 EPS = 1e-18
 PRECISION = 18
 
@@ -46,6 +48,7 @@ def process_pivot_element(a, b, pivot, used_rows):
 def find_subsets(n, m):
     lst = list(range(n + m + 1))
     subsets = list(map(set, itertools.combinations(lst, m)))
+    return subsets
 
 
 def gaussian_elimination(subset, A, B):
@@ -71,10 +74,44 @@ def gaussian_elimination(subset, A, B):
 
 
 def check_solution(solution, A, B, m):
-    pass
+    for i in range(len(A)):
+        sum = 0
+        for j in range(m):
+            sum += A[i][j] * solution[j]
+        if sum - B[i] > 0.00001:
+            return False
+    return True
+
 
 def solve(subsets, A, B, pleasure, m):
-    pass
+    solutions = []
+    for subset in subsets:
+        solution = gaussian_elimination(subset, A, B):
+        if solution is not None:
+            if check_solution(solution, A, B, m):
+                solutions.append(solution)
+    if len(solutions) == 0:
+        print('No solution')
+    else:
+        best = float('inf')
+        result = None
+        for s in solutions:
+            p = 0
+            for i in range(m):
+                p += pleasure[i] * s[i]
+            if p > best:
+                best = p
+                result = s
+        temp = 0
+        for e in result:
+            temp += e
+        if temp > 10000000000:
+            print('Infinity')
+        else:
+            print('Bounded solution')
+            for e in result:
+                print("{0:.18f}".format(e), end=' ')
+
 
 
 if __name__ == '__main__':
