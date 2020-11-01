@@ -1,4 +1,5 @@
 # python3
+# Good job! (Max time used: 4.84/60.00, max memory used: 25300992/536870912.)
 
 import itertools
 import copy
