@@ -5,15 +5,17 @@ import copy
 
 # https://www.geeksforgeeks.org/itertools-combinations-module-python-print-possible-combinations/
 
+
 EPS = 1e-18
 PRECISION = 18
+
 
 class Position:
     def __init__(self, row, col):
         self.row = row
         self.col = col
 
-def select_pivot_element(pivot, a, used_row):
+def select_pivot_element(pivot, a, used_rows):
     while pivot.row < len(a) and (used_rows[pivot.row] or a[pivot.row][pivot.col] == 0):
         pivot.row += 1
     if pivot.row == len(a):
@@ -21,14 +23,12 @@ def select_pivot_element(pivot, a, used_row):
     else:
         return pivot
 
-
 # swap row to top of non-pivot rows
 def swap_lines(a, b, used_rows, pivot):
     a[pivot.col], a[pivot.row] = a[pivot.row], a[pivot.col]
     b[pivot.col], b[pivot.row] = b[pivot.row], b[pivot.col]
     used_rows[pivot.col], used_rows[pivot.row] = used_rows[pivot.row], used_rows[pivot.col]
     pivot.row = pivot.col
-
 
 def process_pivot_element(a, b, pivot, used_rows):
     scale = a[pivot.row][pivot.col]
@@ -42,24 +42,21 @@ def process_pivot_element(a, b, pivot, used_rows):
             for j in range(len(a)):
                 a[i][j] -= a[pivot.row][j] * multiple
             b[i] -= b[pivot.row] * multiple
-        used_rows[pivot.row] = True
-
+    used_rows[pivot.row] = True
 
 def find_subsets(n, m):
     lst = list(range(n + m + 1))
     subsets = list(map(set, itertools.combinations(lst, m)))
     return subsets
 
-
 def gaussian_elimination(subset, A, B):
-    # make equation component
+    # make equation
     a = []
     b = []
     for i in subset:
         a.append(copy.deepcopy(A[i]))
         b.append(copy.deepcopy(B[i]))
-
-    # solve equation component
+    # solve equation
     size = len(a)
     used_rows = [False] * size
     for i in range(size):
@@ -72,7 +69,6 @@ def gaussian_elimination(subset, A, B):
             process_pivot_element(a, b, pivot, used_rows)
     return b
 
-
 def check_solution(solution, A, B, m):
     for i in range(len(A)):
         sum = 0
@@ -82,18 +78,17 @@ def check_solution(solution, A, B, m):
             return False
     return True
 
-
 def solve(subsets, A, B, pleasure, m):
     solutions = []
     for subset in subsets:
-        solution = gaussian_elimination(subset, A, B):
+        solution = gaussian_elimination(subset, A, B)
         if solution is not None:
             if check_solution(solution, A, B, m):
                 solutions.append(solution)
     if len(solutions) == 0:
         print('No solution')
     else:
-        best = float('inf')
+        best = float('-inf')
         result = None
         for s in solutions:
             p = 0
@@ -105,13 +100,12 @@ def solve(subsets, A, B, pleasure, m):
         temp = 0
         for e in result:
             temp += e
-        if temp > 10000000000:
+        if temp > 1000000000:
             print('Infinity')
         else:
             print('Bounded solution')
             for e in result:
                 print("{0:.18f}".format(e), end=' ')
-
 
 
 if __name__ == '__main__':
@@ -123,7 +117,7 @@ if __name__ == '__main__':
     pleasure = list(map(int, input().split()))
     for i in range(n_variables):
         lst = [0] * n_variables
-        lst[i] = - 1
+        lst[i] = -1
         A.append(lst)
         B.append(0)
     A.append([1] * n_variables)
