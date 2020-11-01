@@ -1,5 +1,5 @@
 # python3
-
+# Good job! (Max time used: 0.01/5.00, max memory used: 9703424/536870912.)
 
 EPS = 1e-6
 PRECISION = 6
