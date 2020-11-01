@@ -49,11 +49,25 @@ def find_subsets(n, m):
 
 
 def gaussian_elimination(subset, A, B):
-    # make equation
+    # make equation component
     a = []
     b = []
     for i in subset:
         a.append(copy.deepcopy(A[i]))
+        b.append(copy.deepcopy(B[i]))
+
+    # solve equation component
+    size = len(a)
+    used_rows = [False] * size
+    for i in range(size):
+        pivot = Position(0, i)
+        pivot = select_pivot_element(pivot, a, used_rows)
+        if not pivot:
+            return None
+        else:
+            swap_lines(a, b, used_rows, pivot)
+            process_pivot_element(a, b, pivot, used_rows)
+    return b
 
 
 def check_solution(solution, A, B, m):
