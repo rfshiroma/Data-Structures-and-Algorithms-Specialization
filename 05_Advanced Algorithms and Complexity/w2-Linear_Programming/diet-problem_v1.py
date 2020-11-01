@@ -12,24 +12,48 @@ class Position:
         self.col = col
 
 def select_pivot_element(pivot, a, used_row):
-    pass
+    while pivot.row < len(a) and (used_rows[pivot.row] or a[pivot.row][pivot.col] == 0):
+        pivot.row += 1
+    if pivot.row == len(a):
+        return False
+    else:
+        return pivot
 
 
 # swap row to top of non-pivot rows
 def swap_lines(a, b, used_rows, pivot):
-    pass
+    a[pivot.col], a[pivot.row] = a[pivot.row], a[pivot.col]
+    b[pivot.col], b[pivot.row] = b[pivot.row], b[pivot.col]
+    used_rows[pivot.col], used_rows[pivot.row] = used_rows[pivot.row], used_rows[pivot.col]
+    pivot.row = pivot.col
 
 
 def process_pivot_element(a, b, pivot, used_rows):
-    pass
+    scale = a[pivot.row][pivot.col]
+    if scale != 1:
+        for i in range(len(a)):
+            a[pivot.row][i] /= scale
+        b[pivot.row] /= scale
+    for i in range(len(a)):
+        if i != pivot.row:
+            multiple = a[i][pivot.col]
+            for j in range(len(a)):
+                a[i][j] -= a[pivot.row][j] * multiple
+            b[i] -= b[pivot.row] * multiple
+        used_rows[pivot.row] = True
 
 
 def find_subsets(n, m):
-    pass
+    lst = list(range(n + m + 1))
+    subsets = list(map(set, itertools.combinations(lst, m)))
 
 
 def gaussian_elimination(subset, A, B):
-    pass
+    # make equation
+    a = []
+    b = []
+    for i in subset:
+        a.append(copy.deepcopy(A[i]))
 
 
 def check_solution(solution, A, B, m):
@@ -54,7 +78,7 @@ if __name__ == '__main__':
     A.append([1] * n_variables)
     B.append(1000000001)
     # print('A', A, 'B', B)
-    sub = FindSubsets(n_equations, n_variables)
+    sub = find_subsets(n_equations, n_variables)
     # print('subsets', sub)
 
     solve(sub, A, B, pleasure, n_variables)
