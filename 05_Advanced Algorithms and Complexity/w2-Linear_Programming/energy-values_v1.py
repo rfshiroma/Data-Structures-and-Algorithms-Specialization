@@ -1,14 +1,19 @@
 # python3
 # Good job! (Max time used: 0.01/5.00, max memory used: 9703424/536870912.)
 
+'''Linear Programming: Gaussian Elimination'''
+# Learning Objectives:
+
 EPS = 1e-6
 PRECISION = 6
 
+# Store coefficients of equations in an (augmented) matrix
 class Equation:
     def __init__(self, a, b):
         self.a = a
         self.b = b
 
+# Set the position of coefficients in an (augmented) matrix
 class Position:
     def __init__(self, row, col):
         self.row = row
