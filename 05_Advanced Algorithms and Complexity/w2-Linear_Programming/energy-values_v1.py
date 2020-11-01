@@ -3,6 +3,9 @@
 
 '''Linear Programming: Gaussian Elimination'''
 # Learning Objectives:
+  # Solve a system of linear equations;
+  # Implement a row reduction algorithm;
+  # Understande about what the set of solution to a system of linear quations looks like.
 
 EPS = 1e-6
 PRECISION = 6
