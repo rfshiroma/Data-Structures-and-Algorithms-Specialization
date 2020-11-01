@@ -1,1 +1,111 @@
 # python3
+
+def choose_pivot_column(m, n, s, A):
+    pass
+
+
+# Gauss-Jordan elimination
+def pivoting(depart, enter, m, n, s, A, b):
+    pass
+
+
+def part_one(m, n, s, A, b, basis):
+    pass
+
+
+def transition(m, n, s, A, basis, b, arti):
+    pass
+
+
+def part_two(m, n, s, A, b, basis):
+    ans = 0
+    A.pop()
+    b.pop()
+    enter = choose_pivot_column(m, n, -2, A)    # pivot column
+    while enter != -1:
+        #choose pivot
+        depart = -1
+        min_ratio = float('inf')
+        for i in range(n):
+            if A[i][enter] > 0:
+                ratio = b[i]/A[i][enter]
+                if ratio < min_ratio:
+                    min_ratio = ratio
+                    depart = i                  # pivot.row
+        if depart == -1:
+            ans = 1
+            break
+        else:
+            basis[depart] = enter
+            pivoting(depart, enter, m, n, s, A, b)
+            enter = choose_pivot_column(m, n, -2, A)
+    return ans
+
+
+def part_two_Simplex(m, n, s, A, b, basis, arti_var):
+    w = part_one(m, n, s, A, b, basis)
+    if w < -0.001:
+        print('No solution')
+    else:
+        transition(m, n, s, A, basis, b, arti_var)
+        ans = part_two(m, n, s, A, b, basis)
+        if ans == 1:
+            print('Infinity')
+        else:
+            solution = [0] * (m + n)
+            for i in range(n):
+                solution[basis[i]] = b[i]
+            print('Bounded solution')
+            for k in range(m):
+                print("{0:.18f}".format(solution[k], end=' '))
+
+
+if __name__ == '__main__':
+    n, m = map(int, input().split())
+    A = []
+    for _ in range(n):
+        A += [list(map(int, input().split()))]
+    b = list(map(int, input().split()))
+    c = list(map(int, input().split()))
+    b.append(0)
+    arti = []
+    for i in range(n + 1):
+        if b[i] < 0:
+            arti.append(i)
+    s = len(arti)
+    basis = []
+    arti_var = []
+    count = 0
+    for i in range(n):
+        lst = [0] * (n + s + 2)
+        lst[i] = 1
+        if b[i] >= 0:
+            A[i] += lst
+            basis.append(m + i)
+        else:
+            b[i] = -b[i]
+            temp = [-e for e in A[i]]
+            temp += [-e for e in lst]
+            temp[n + m + count] = 1
+            basis.append(n + m + count)
+            arti_var.append(n + m + count)
+            count += 1
+            A[i] = temp
+    temp = [-e for e in c] + [0] * (n + s + 2)
+    temp[-2] = 1
+    A += [temp]
+
+    temp = []
+    for j in range(m + n):
+        a = 0
+        for e in in arti:
+            a += A[e][j]
+        temp.append(-a)
+    temp += [0] * (s + 2)
+    temp[-1] = 1
+    A += [temp]
+    a = 0
+    for e in arti:
+        a += b[e]
+    b.append(-a)
+    part_two_Simplex(m, n, s, A, b, basis, arti_var)
