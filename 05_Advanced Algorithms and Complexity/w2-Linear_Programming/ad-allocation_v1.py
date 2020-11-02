@@ -1,12 +1,30 @@
 # python3
 
 def choose_pivot_column(m, n, s, A):
-    pass
+    minimum = -0.001
+    enter = -1
+
+    # choose pivot print_column
+    for j in range(m + n + s + 2):
+        if A[-1][j] < minimum:
+            minimum = A[-1][j]
+            enter = j               # pivot.column
+    return enter
 
 
 # Gauss-Jordan elimination
 def pivoting(depart, enter, m, n, s, A, b):
-    pass
+    pivot = A[depart][enter]
+    if pivot != 1:
+        for k in range(m + n + s + 2):
+            A[depart][k] /= pivot
+        b[depart] /= pivot
+    for i in range(len(A)):
+        if i != depart:
+            a = A[i][enter]
+            for j in range(m + n + s + 2):
+                A[i][j] -= A[depart][j] * a
+            b[i] -= b[depart] * a
 
 
 def part_one(m, n, s, A, b, basis):
