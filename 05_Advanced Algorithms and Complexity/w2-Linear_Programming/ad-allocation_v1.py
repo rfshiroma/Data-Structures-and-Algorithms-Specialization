@@ -28,7 +28,22 @@ def pivoting(depart, enter, m, n, s, A, b):
 
 
 def part_one(m, n, s, A, b, basis):
-    pass
+    enter = choose_pivot_column(m, n, s, A)  # pivot column
+    while enter != -1:
+        # choose pivot
+        depart = -1
+        min_ratio = float('inf')
+        for i in range(n):
+            if A[i][enter] > 0:
+                ratio = b[i]/A[i][enter]
+                if ratio < min_ratio:
+                    min_ratio = ratio
+                    depart = i  # pivot.row
+        basis[depart] = enter
+        pivoting(depart, enter, m, n, s, A, b)
+        enter = choose_pivot_column(m, n, s, A)
+    return b[-1]
+
 
 
 def transition(m, n, s, A, basis, b, arti):
