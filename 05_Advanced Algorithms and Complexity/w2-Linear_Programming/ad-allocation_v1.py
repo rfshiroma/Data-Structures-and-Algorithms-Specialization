@@ -47,7 +47,15 @@ def part_one(m, n, s, A, b, basis):
 
 
 def transition(m, n, s, A, basis, b, arti):
-    pass
+    enter = -1
+    for i in range(n):
+        if basis[i] in arti:
+            for j in range(m + n):
+                if A[i][j] != 0:
+                    enter = j
+                    basis[i] = j
+                    break
+            pivoting(i, enter, m, n, s, A, b)
 
 
 def part_two(m, n, s, A, b, basis):
