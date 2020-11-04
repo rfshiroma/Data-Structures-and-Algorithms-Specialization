@@ -8,7 +8,7 @@ edges = [list(map(int, input().split())) for i in range(m)]
 
 A = []
 for i in range(n):
-  A += [list(map(int, stdin.readline().split()))]
+    A += [list(map(int, stdin.readline().split()))]
 b = list(map(int, stdin.readline().split()))
 
 # This solution prints a simple satisfiable formula
