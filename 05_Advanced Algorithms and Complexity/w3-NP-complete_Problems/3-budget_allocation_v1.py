@@ -55,6 +55,20 @@ for i in range(n):
                         temp += [- C[k] - 1]
                 clauses.append(temp)
 
+if len(clauses) == 0:
+    clauses = [[1, -1]]
+    n_variables = 1
+elif clauses == [[1], [-1]]:
+    n_variables = 1
+else:
+    n_variables = m
+
+print(len(clauses), n_variables)
+for clause in clauses:
+    for i in clause:
+        print(i, end=' ')
+    print(0)
+
 
 # This solution prints a simple satisfiable formula
 # and passes about half of the tests.
