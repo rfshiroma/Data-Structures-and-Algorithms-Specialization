@@ -26,7 +26,6 @@ for i in range(n):
             break
         else:
             continue
-
     # clauses which make inequelities unsatisfiable
     elif len(C) == 1:
         for u in lst1:
@@ -37,7 +36,24 @@ for i in range(n):
                     clauses.append([- C[0] - 1])
     elif len(C) == 2:
         for u, v in lst2:
-            if A[i][C[0]] * u + 
+            if A[i][C[0]] * u + A[i][C[1]] * v > b[i]:
+                temp = []
+                for k in range(2):
+                    if [u, v][k] == 0:
+                        temp += [C[k] + 1]
+                    else:
+                        temp += [- C[k] - 1]
+                clauses.append(temp)
+    elif len(C) == 3:
+        for u, v, w in lst3:
+            if A[i][C[0]] * u + A[i][C[1]] * v + A[i][C[2]] * w > b[i]:
+                temp = []
+                for k in range(3):
+                    if [u, v, w][k] == 0:
+                        temp += [C[k] + 1]
+                    else:
+                        temp += [- C[k] - 1]
+                clauses.append(temp)
 
 
 # This solution prints a simple satisfiable formula
