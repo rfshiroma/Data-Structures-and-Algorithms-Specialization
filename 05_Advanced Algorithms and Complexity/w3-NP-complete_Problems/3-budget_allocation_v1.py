@@ -27,6 +27,18 @@ for i in range(n):
         else:
             continue
 
+    # clauses which make inequelities unsatisfiable
+    elif len(C) == 1:
+        for u in lst1:
+            if A[i][C[0]] * u > b[i]:
+                if u == 0:
+                    clauses.append([C[0] + 1])
+                else:
+                    clauses.append([- C[0] - 1])
+    elif len(C) == 2:
+        for u, v in lst2:
+            if A[i][C[0]] * u + 
+
 
 # This solution prints a simple satisfiable formula
 # and passes about half of the tests.
