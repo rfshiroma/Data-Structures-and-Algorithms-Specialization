@@ -26,6 +26,35 @@ for i in range(1, n + 1):
     subsets = list(map(list, itertools.combinations(lst, 2)))
     E += subsets
 
+lst = list(i for i in range(1, n + 1))
+subsets = list(map(list, itertools.combinations(lst, 2)))
+C = []
+# Non-adjacent nodes can not be adjacent in the path
+for a, b in subsets:
+    if [a,b] not in edges and [b,a] not in edges:
+        for i in range(1, n):
+            C.append([-((a - 1) * n + i), -((b - 1) * n + i + 1)])
+            C.append([-((b - 1) * n + i), -((a - 1) * n + i + 1)])
+
+n_clauses = len(V) + len(E) + len(C)
+n_variables = n * n
+print(n_clauses, n_variables)
+
+for clause in V:
+    for i in clause:
+        print(i, end=' ')
+    print(0)
+
+for clause in E:
+    for i in clause:
+        print(i, end=' ')
+    print(0)
+
+for clause in C:
+    for i in clause:
+        print(i, end=' ')
+    print(0)
+    
 
 # This solution prints a simple satisfiable formula
 # and passes about half of the tests.
