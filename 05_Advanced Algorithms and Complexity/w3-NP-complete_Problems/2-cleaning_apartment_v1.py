@@ -6,10 +6,26 @@ import itertools
 n, m = list(map(int, stdin.readline().split()))
 edges = [list(map(int, input().split())) for i in range(m)]
 
-A = []
-for i in range(n):
-    A += [list(map(int, stdin.readline().split()))]
-b = list(map(int, stdin.readline().split()))
+V = []
+for i in range(1, n + 1):
+    # each node must appear in the path
+    Xij = list(j for j in range((i-1) * n + 1, i * n + 1))
+    V.append(Xij)
+    # each node must appear once in the path
+    lst = list(-x for x in Xij)
+    subsets = list(map(list, itertools.combinations(lst, 2)))
+    A += subsets
+
+E = []
+for i in range(1, n + 1):
+    # every position in the path must be occupied
+    pos = list(k for k in range(i, n * n + i, n))
+    E.append(pos)
+    # every position in the path can only have one node
+    lst = list(-x for x in pos)
+    subsets = list(map(list, itertools.combinations(lst, 2)))
+    E += subsets
+
 
 # This solution prints a simple satisfiable formula
 # and passes about half of the tests.
