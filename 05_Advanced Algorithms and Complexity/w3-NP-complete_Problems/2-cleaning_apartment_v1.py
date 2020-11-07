@@ -54,7 +54,7 @@ for clause in C:
     for i in clause:
         print(i, end=' ')
     print(0)
-    
+
 
 # This solution prints a simple satisfiable formula
 # and passes about half of the tests.
