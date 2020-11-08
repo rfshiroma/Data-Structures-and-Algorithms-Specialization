@@ -14,7 +14,18 @@ def post_order(i, graph, visited, post):
 
 
 def DFS(n, graph):
-    pass
+    global clock
+    visited = [False] * (2 * n + 1)
+    post = [0] * (2 * n + 1)
+    for v in range(1, 2 * n + 1):
+        if not visited[v]:
+            post_order(v, graph, visited, post)
+    post = list(enumerate(post[1:], start=1))
+    post.sort(key=lambda x:x[1], reverse=True)
+    post_vertex = []
+    for v, order in post:
+        post_vertex.append(v)
+    return post_vertex
 
 
 def explore(i, graph, visited, SCC, SCC_number, u):
