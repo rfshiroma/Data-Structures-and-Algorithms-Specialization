@@ -1,10 +1,16 @@
 # python3
 
 import sys
-import threading  
+import threading
 
 def post_order(i, graph, visited, post):
-    pass
+    global clock
+    visited[i] = True
+    for v in graph[i]:
+        if not visited[v]:
+            post_order(v, graph, visited, post)
+    post[i] = clock
+    clock += 1
 
 
 def DFS(n, graph):
