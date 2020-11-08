@@ -29,7 +29,12 @@ def DFS(n, graph):
 
 
 def explore(i, graph, visited, SCC, SCC_number, u):
-    pass
+    visited[i] = True
+    SCC.append(i)
+    SCC_number[i] = u
+    for v in graph[i]:
+        if not visited[v]:
+            explore(v, graph, visited, SCC, SCC_number, u)
 
 
 def find_SCCs(n, rev_graph, graph):
