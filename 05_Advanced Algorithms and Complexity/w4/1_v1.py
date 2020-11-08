@@ -38,7 +38,19 @@ def explore(i, graph, visited, SCC, SCC_number, u):
 
 
 def find_SCCs(n, rev_graph, graph):
-    pass
+    global clock
+    post_vertex = DFS(n, rev_graph)
+    visited = [False] * (2 * n + 1)
+    SCCs = []
+    SCC_number = [0] * (2 * n + 1)
+    u = 1
+    for i in post_vertex:
+        if not visited[i]:
+            SCC = []
+            explore(i, graph, visited, SCC, SCC_number, u)
+            SCCs.append(SCC)
+            u += 1
+    return SCCs, SCC_number
 
 
 def two_SAT(n, rev_graph, graph):
