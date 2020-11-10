@@ -54,7 +54,25 @@ def find_SCCs(n, rev_graph, graph):
 
 
 def two_SAT(n, rev_graph, graph):
-    pass
+    SCCs, SCC_number = find_SCCs(n, rev_graph, graph)
+    # print(SCCs, SCC_number)
+    for i in range(1, n + 1):
+        if SCC_number[i] == SCC_number[i + n]:
+            return False
+    solution =[[] for _ in range(2 * n + 1)]
+    assigned = [False] * (2 * n + 1)
+    for SCC in SCCs:
+        for v in SCC:
+            if not assigned[v]:
+                assigned[v] = True
+                solution[v] = 1
+                if v > n:
+                    solution[v - n] = 0
+                    assigned[v - n] = True
+                else:
+                    solution[v + n] = 0
+                    assigned[v + n] = True
+    return solution
 
 
 clock = 1
