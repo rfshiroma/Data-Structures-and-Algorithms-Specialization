@@ -77,7 +77,43 @@ def two_SAT(n, rev_graph, graph):
 
 clock = 1
 def main():
-    pass
+    n, m = map(int, input().split())
+    edges = [[] for _ in range(2 * n + 1)]
+    rev_edges = [[] for _ in range(2 * n + 1)]
+    for _ in range(m):
+        a, b = map(int, input().split())
+        if a > 0 and b > 0:
+            edges[a + n].append(b)
+            edges[b + n].append(a)
+            rev_edges[b].append(a + n)
+            rev_edges[a].append(b + n)
+        elif a < 0 and b < 0:
+            edges[-a].apend(-b + n)
+            edges[-b].append(-a + n)
+            rev_edges[-b + n].append(-a)
+            rev_edges[-a + n].append(-b)
+        elif a < 0 and b > 0:
+            edges[-a].append(b)
+            edges[b + n].append(-a + n)
+            rev_edges[b].append(-a)
+            rev_edges[-a + n].append(b + n)
+        elif a > 0 and b < 0:
+            edges[a + n].append(-b + n)
+            edges[-b].append(a)
+            rev_edges[-b + n].append(a + n)
+            rev_edges[a].append(-b)
+    # print(edges)
+    # print(rev_edges)
+    result = two_SAT(n, rev_edges, edges)
+    if not result:
+        print('UNSATISFIABLE')
+    else:
+        print('SATISFIABLE')
+        for i in range(1, n + 1):
+            if result[i] > 0:
+                print(i, end=' ')
+            else:
+                print(-i, end=' ')
 
 # This is to avoid stack overflow issues
 threading.Thread(target=main).start()
