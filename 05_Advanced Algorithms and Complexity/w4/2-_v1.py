@@ -43,7 +43,11 @@ def DFS(tree, v, parent, D):
 
 
 def max_weight_independent_tree_subset(tree):
-    pass
+    size = len(tree)
+    if size == 0:
+        return 0
+    D = [-1] * size
+    return DFS(tree, 0, -1, D)
 
 
 def main():
