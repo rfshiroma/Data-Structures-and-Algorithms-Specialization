@@ -8,7 +8,14 @@ INF = 10**9
 
 
 def read_data():
-    pass
+    n, m = map(int, input().split())
+    graph = [[INF] * n for _ in range(n)]  # adjacent matrix
+    for _ in range(m):
+        u, v, weight = map(int, input().split())
+        u -= 1
+        v -= 1
+        graph[u][v] = graph[v][u] = weight
+    return graph
 
 
 def print_answer(path_weight, path):
