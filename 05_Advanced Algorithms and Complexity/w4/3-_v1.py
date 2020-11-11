@@ -19,7 +19,10 @@ def read_data():
 
 
 def print_answer(path_weight, path):
-    pass
+    print(path_weight)
+    if path_weight == -1:
+        return
+    print(' '.join(map(str, path)))
 
 
 def optimal_path(graph):
