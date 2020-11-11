@@ -24,7 +24,22 @@ def read_tree():
 
 
 def DFS(tree, v, parent, D):
-    pass
+    if D[v] == -1:
+        if len(tree[v].children) == 1 and v != 0:
+            D[v] = tree.weight
+        else:
+            m1 = tree[v].weight
+            for u in tree[v].children:
+                if u != parent:
+                    for w in tree[u].children:
+                        if w != v:
+                            m1 += DFS(tree, w, u, D)
+            m0 = 0
+            for u in tree[v].children:
+                if u != parent:
+                    m0 += DFS(tree, u, v, D)
+            D[v] = max(m0, m1)
+    return D[v]
 
 
 def max_weight_independent_tree_subset(tree):
