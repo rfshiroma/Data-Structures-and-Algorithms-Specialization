@@ -45,7 +45,15 @@ def optimal_path(graph):
                                 backtrack[k][i] = (m, j)
     best_ans, index2 = min([(C[-1][i] + graph[i][0], i) for i in range(n)])
 
-    
+    if best_ans >= INF:
+        return -1, []
+
+    path = deque()
+    index1 = (1 << n) - 1
+    while index1 != -1:
+        path.appendleft(index2 + 1)
+        index1, index2 = backtrack[index1][index2]
+    return best_ans, path
 
 
 if __name__ == '__main__':
