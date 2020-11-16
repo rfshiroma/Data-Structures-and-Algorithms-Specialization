@@ -39,7 +39,31 @@ def reduce_to_two_SAT(color, edges):
 
 
 def two_SAT_to_graph(n, C):
-    pass
+    graph = [[] for _ in range(2 * n + 1)]
+    rev_graph = [[] for _ in range(2 * n + 1)]
+    for a, b in C:
+        if a > 0 and b > 0:
+            graph[a + n].append(b)
+            graph[b + n].append(a)
+            rev_graph[b].append(a + n)
+            rev_graph[a].append(b + n)
+        elif a < 0 and b < 0:
+            graph[-a].append(-b + n)
+            graph[-b].append(-a + n)
+            rev_graph[-b + n].append(-a)
+            rev_graph[-a + n].append(-b)
+        elif a < 0 and b > 0:
+            graph[-a].append(b)
+            graph[b + n].append(-a + n)
+            rev_graph[b].append(-a)
+            rev_graph[-a + n].append(b + n)
+        elif a > 0 and b < 0:
+            graph[a + n].append(-b + n)
+            graph[-b].append(a)
+            rev_graph[-b + n].append(a + n)
+            rev_graph[a].append(-b)
+    return graph, rev_graph
+
 
 
 def post_order(i, graph, visited, post):
